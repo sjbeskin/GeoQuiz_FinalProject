@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
+                mIsCheater = false;
                 if(mQuestionsAnswered.contains(mCurrentIndex)) {
                     mTrueButton.setEnabled(false);
                     mFalseButton.setEnabled(false);
@@ -136,19 +137,19 @@ public class MainActivity extends AppCompatActivity {
         updateQuestion();
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (resultCode != Activity.RESULT_OK) {
-//            return;
-//        }
-//
-//        if (requestCode == REQUEST_CODE_CHEAT) {
-//            if (data == null) {
-//                return;
-//            }
-//            mIsCheater = CheatActivity.wasAnswerShown(data);
-//        }
-//    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+
+        if (requestCode == REQUEST_CODE_CHEAT) {
+            if (data == null) {
+                return;
+            }
+            mIsCheater = CheatActivity.wasAnswerShown(data);
+        }
+    }
 
     @Override
     public void onStart() {
@@ -197,11 +198,15 @@ public class MainActivity extends AppCompatActivity {
 
         int messageResId = 0;
 
-        if (userPressedTrue == answerIsTrue) {
-            messageResId = R.string.correct_toast;
-            mNumCorrect++;
+        if (mIsCheater) {
+            messageResId = R.string.judgement_toast;
         } else {
-            messageResId = R.string.incorrect_toast;
+            if (userPressedTrue == answerIsTrue) {
+                messageResId = R.string.correct_toast;
+                mNumCorrect++;
+            } else {
+                messageResId = R.string.incorrect_toast;
+            }
         }
 
         Toast myToast = Toast.makeText(this, messageResId, Toast.LENGTH_SHORT);

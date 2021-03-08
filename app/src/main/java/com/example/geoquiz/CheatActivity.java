@@ -12,10 +12,13 @@ import android.widget.TextView;
 public class CheatActivity extends AppCompatActivity {
     private static final String EXTRA_ANSWER_IS_TRUE = "com.example.geoquiz.answer_is_true";
     private static final String EXTRA_ANSWER_SHOWN = "com.example.geoquiz.answer_shown";
+    private static final String EXTRA_DID_CHEAT = "cheat";
+
 
     private boolean mAnswerIsTrue;
     private TextView mAnswerTextView;
     private Button mShowAnswerButton;
+    private Boolean mDidCheat = false;
 
     public static Intent newIntent(Context packageContext, boolean answerIsTrue) {
         Intent intent = new Intent(packageContext, CheatActivity.class);
@@ -28,13 +31,32 @@ public class CheatActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putBoolean(EXTRA_DID_CHEAT, mDidCheat);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cheat);
 
+        if(savedInstanceState != null) {
+            mDidCheat = savedInstanceState.getBoolean(EXTRA_DID_CHEAT, false);
+        }
+
         mAnswerIsTrue = getIntent().getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false);
 
         mAnswerTextView = (TextView) findViewById(R.id.answer_text_view);
+
+        if (mDidCheat) {
+            if (mAnswerIsTrue) {
+                mAnswerTextView.setText("True");
+            } else {
+                mAnswerTextView.setText("False");
+            }
+            setAnswerShownResult(true);
+        }
 
         mShowAnswerButton = (Button) findViewById(R.id.show_answer_button);
         mShowAnswerButton.setOnClickListener(new View.OnClickListener() {
@@ -46,6 +68,7 @@ public class CheatActivity extends AppCompatActivity {
                     mAnswerTextView.setText(R.string.false_button);
                 }
                 setAnswerShownResult(true);
+                mDidCheat = true;
             }
         });
     }

@@ -32,14 +32,16 @@ public class MainActivity extends AppCompatActivity {
     private int mNumCorrect = 0;
 
 
-    private Question[] mQuestionBank = new Question[] {
-            new Question(R.string.question_australia, true),
-            new Question(R.string.question_oceans, true),
-            new Question(R.string.question_mideast, false),
-            new Question(R.string.question_africa, false),
-            new Question(R.string.question_americas, true),
-            new Question(R.string.question_asia, true),
-    };
+//    private Question[] mQuestionBank = new Question[] {
+//            new Question(R.string.question_australia, true),
+//            new Question(R.string.question_oceans, true),
+//            new Question(R.string.question_mideast, false),
+//            new Question(R.string.question_africa, false),
+//            new Question(R.string.question_americas, true),
+//            new Question(R.string.question_asia, true),
+//    };
+
+    private ArrayList<Question> mQuestionBank = new ArrayList<Question>();
 
     private ArrayList<Integer> mQuestionsAnswered = new ArrayList<Integer>();
 
@@ -53,6 +55,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate(bundle) called");
         setContentView(R.layout.activity_main);
+
+        mQuestionBank.add(new Question(R.string.question_australia, true));
+        mQuestionBank.add(new Question(R.string.question_oceans, true));
+        mQuestionBank.add(new Question(R.string.question_mideast, false));
+        mQuestionBank.add(new Question(R.string.question_africa, false));
+        mQuestionBank.add(new Question(R.string.question_americas, true));
+        mQuestionBank.add(new Question(R.string.question_asia, true));
 
         if (savedInstanceState != null) {
             mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
@@ -86,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
+                mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.size();
                 mIsCheater = mQuestionsCheated.contains(mCurrentIndex);
                 if(mQuestionsAnswered.contains(mCurrentIndex)) {
                     mTrueButton.setEnabled(false);
@@ -105,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                mCurrentIndex = (mCurrentIndex - 1);
                if(mCurrentIndex < 0){
-                   mCurrentIndex = mQuestionBank.length - 1;
+                   mCurrentIndex = mQuestionBank.size() - 1;
                }
                if(mQuestionsAnswered.contains(mCurrentIndex)) {
                    mTrueButton.setEnabled(false);
@@ -122,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         mTextNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
+                mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.size();
                 updateQuestion();
             }
         });
@@ -132,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Start CheatActivity
-                boolean answerIsTrue = mQuestionBank[mCurrentIndex].isAnswerTrue();
+                boolean answerIsTrue = mQuestionBank.get(mCurrentIndex).isAnswerTrue();
                 Intent intent = CheatActivity.newIntent(MainActivity.this, answerIsTrue);
                 startActivityForResult(intent, REQUEST_CODE_CHEAT);
             }
@@ -143,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != Activity.RESULT_OK) {
             return;
         }
@@ -197,12 +207,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateQuestion() {
-        int question = mQuestionBank[mCurrentIndex].getTextResId();
-        mQuestionTextView.setText(question);
+        if(mQuestionBank.get(mCurrentIndex).getNewQuestion() == null) {
+            int question = mQuestionBank.get(mCurrentIndex).getTextResId();
+            mQuestionTextView.setText(question);
+        } else {
+            String question = mQuestionBank.get(mCurrentIndex).getNewQuestion();
+            mQuestionTextView.setText(question);
+        }
+
     }
 
     private void checkAnswer(boolean userPressedTrue) {
-        boolean answerIsTrue = mQuestionBank[mCurrentIndex].isAnswerTrue();
+        boolean answerIsTrue = mQuestionBank.get(mCurrentIndex).isAnswerTrue();
 
         int messageResId = 0;
 
@@ -221,8 +237,8 @@ public class MainActivity extends AppCompatActivity {
         myToast.setGravity(Gravity.TOP, 0, 0);
         myToast.show();
 
-        if(mQuestionsAnswered.size() == mQuestionBank.length){
-            int score = (int) Math.round((((mNumCorrect + 0.0) / mQuestionBank.length) * 100));
+        if(mQuestionsAnswered.size() == mQuestionBank.size()){
+            int score = (int) Math.round((((mNumCorrect + 0.0) / mQuestionBank.size()) * 100));
             String scoreText = "Score: " + score + "%";
             Toast scoreToast = Toast.makeText( this, scoreText, Toast.LENGTH_LONG);
             scoreToast.setGravity(Gravity.CENTER, 0, -250);

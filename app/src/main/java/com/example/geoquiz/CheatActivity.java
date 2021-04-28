@@ -12,7 +12,7 @@ import android.widget.TextView;
 public class CheatActivity extends AppCompatActivity {
     private static final String EXTRA_ANSWER_IS_TRUE = "com.example.geoquiz.answer_is_true";
     private static final String EXTRA_ANSWER_SHOWN = "com.example.geoquiz.answer_shown";
-    private static final String EXTRA_DID_CHEAT = "cheat";
+    private static final String EXTRA_DID_CHEAT = "com.example.geoquiz.cheat";
 
 
     private boolean mAnswerIsTrue;

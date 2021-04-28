@@ -1,20 +1,41 @@
 <resources>
     <string name="app_name">GeoQuiz</string>
+
+    <!-- Buttons -->
     <string name="true_button">True</string>
     <string name="false_button">False</string>
     <string name="correct_toast">Correct!</string>
     <string name="next_button">Next</string>
     <string name="back_button">Back</string>
-    <string name="add_question_button">Add Question</string>
     <string name="incorrect_toast">Incorrect!</string>
+
+    <!-- Cheating -->
     <string name="warning_text">Are you sure you want to do this?</string>
     <string name="show_answer_button">Show Answer</string>
     <string name="cheat_button">Cheat!</string>
     <string name="judgement_toast">Cheating is not a victimless crime.</string>
+
+    <!-- Add and Remove QuestionS -->
+    <string name="add_question_button">Add Question</string>
+    <string name="remove_question_button">Remove Question</string>
+    <string name="add_question_title">Question</string>
+    <string name="add_question_title_hint">Enter your new true or false question.</string>
+    <string name="add_question_true_false">Is your question true or false?</string>
+    <string name="add_question_create">Create Question</string>
+    <string name="add_question_title_missing_toast">Please write a question.</string>
+    <string name="remove_question_warning_toast">This is the only question. Please add more questions before removing this one.</string>
+    <string name="question_removed_toast">Question Removed.</string>
+    <string-array name="add_question_true_false_array">
+        <item>True</item>
+        <item>False</item>
+    </string-array>
+
+    <!-- Questions -->
     <string name="question_australia">Canberra is the capital of Australia.</string>
     <string name="question_oceans">The Pacific Ocean is larger than the Atlantic Ocean.</string>
     <string name="question_mideast">The Suez Canal connects the Red Sea and the Indian Ocean.</string>
     <string name="question_africa">The source of the Nile River is in Egypt.</string>
     <string name="question_americas">The Amazon River is the longest river in the Americas.</string>
     <string name="question_asia">Lake Baikal is the world\'s oldest and deepest freshwater lake.</string>
+
 </resources>

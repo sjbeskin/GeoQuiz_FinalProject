@@ -21,15 +21,19 @@ public class MainActivity extends AppCompatActivity {
     private static final String KEY_INDEX = "index";
     private static final String DID_CHEAT = "cheat";
     private static final int REQUEST_CODE_CHEAT = 0;
+    private static final int REQUEST_CODE_ADD_QUESTION = 1;
 
     private Button mTrueButton;
     private Button mFalseButton;
     private ImageButton mNextButton;
     private ImageButton mBackButton;
     private Button mCheatButton;
+    private Button mAddQuestionButton;
+    private Button mRemoveQuestionButton;
     private TextView mTextNextButton;
     private TextView mQuestionTextView;
     private int mNumCorrect = 0;
+    private Question mNewQuestion;
 
 
 //    private Question[] mQuestionBank = new Question[] {
@@ -147,6 +151,41 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        mAddQuestionButton = (Button) findViewById(R.id.add_question_button);
+        mAddQuestionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Start AddQuestionActivity
+                Intent intent = AddQuestionActivity.newIntent(MainActivity.this);
+                startActivityForResult(intent, REQUEST_CODE_ADD_QUESTION);
+            }
+        });
+
+        mRemoveQuestionButton = (Button) findViewById(R.id.remove_question_button);
+        mRemoveQuestionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Remove Current Question
+                if (mQuestionBank.size() > 1) {
+                    if (mCurrentIndex == mQuestionBank.size() - 1) {
+                        mCurrentIndex = 0;
+                        mQuestionBank.remove(mQuestionBank.size() - 1);
+                    } else {
+                        mQuestionBank.remove(mCurrentIndex);
+                    }
+                    updateQuestion();
+
+                    Toast questionRemoved = Toast.makeText(MainActivity.this, R.string.question_removed_toast, Toast.LENGTH_SHORT);
+                    questionRemoved.setGravity(Gravity.CENTER, 0, 0);
+                    questionRemoved.show();
+                } else {
+                    Toast oneQuestionWarning = Toast.makeText(MainActivity.this, R.string.remove_question_warning_toast, Toast.LENGTH_LONG);
+                    oneQuestionWarning.setGravity(Gravity.CENTER, 0, 0);
+                    oneQuestionWarning.show();
+                }
+            }
+        });
+
         updateQuestion();
     }
 
@@ -165,6 +204,15 @@ public class MainActivity extends AppCompatActivity {
                 mIsCheater = true;
                 mQuestionsCheated.add(mCurrentIndex);
             }
+        }
+
+        if (requestCode == REQUEST_CODE_ADD_QUESTION) {
+            if (data == null) {
+                return;
+            }
+            String newQuestionTitle = AddQuestionActivity.getNewQuestionTitle(data);
+            boolean newQuestionTrueFalse = AddQuestionActivity.getNewQuestionTrueFalse(data);
+            mQuestionBank.add(new Question(newQuestionTitle, newQuestionTrueFalse));
         }
     }
 
@@ -239,7 +287,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(mQuestionsAnswered.size() == mQuestionBank.size()){
             int score = (int) Math.round((((mNumCorrect + 0.0) / mQuestionBank.size()) * 100));
-            String scoreText = "Score: " + score + "%";
+            String scoreText = "Score: " + score + "%, " + mNumCorrect + "/" + mQuestionBank.size();
             Toast scoreToast = Toast.makeText( this, scoreText, Toast.LENGTH_LONG);
             scoreToast.setGravity(Gravity.CENTER, 0, -250);
             scoreToast.show();

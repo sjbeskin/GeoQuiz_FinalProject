@@ -9,9 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CheatActivity"></activity>
-        <activity android:name=".AddQuestionActivity"></activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".CheatActivity" android:configChanges="orientation|screenSize|keyboardHidden"></activity>
+        <activity android:name=".AddQuestionActivity" android:configChanges="orientation|screenSize|keyboardHidden"></activity>
+        <activity android:name=".MainActivity" android:configChanges="orientation|screenSize|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

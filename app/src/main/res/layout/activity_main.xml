@@ -19,20 +19,23 @@
             android:id="@+id/true_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/true_button" />
+            android:text="@string/true_button"
+            android:backgroundTint="@color/trueButtonPrimary" />
 
         <Button
             android:id="@+id/false_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/false_button" />
+            android:text="@string/false_button"
+            android:backgroundTint="@color/falseButtonPrimary"/>
     </LinearLayout>
 
     <Button
         android:id="@+id/cheat_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/cheat_button" />
+        android:text="@string/cheat_button"
+        android:backgroundTint="@color/cheatButtonPrimary"/>
 
     <LinearLayout
         android:layout_width="wrap_content"

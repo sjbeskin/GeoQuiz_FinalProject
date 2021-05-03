@@ -161,11 +161,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Removes the current question and calls updateQuestion to move to the next question in the ArrayList
         mRemoveQuestionButton = (Button) findViewById(R.id.remove_question_button);
         mRemoveQuestionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Remove Current Question
+                // Checks how many questions there are and only removes one if there's more than 1
+                // Uses Toasts to inform the user when they've removed a question or are not allowed to remove one
                 if (mQuestionBank.size() > 1) {
                     if (mCurrentIndex == mQuestionBank.size() - 1) {
                         mCurrentIndex = 0;
@@ -206,6 +208,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        // Creates a new question using the user information received from AddQuestionActivity
         if (requestCode == REQUEST_CODE_ADD_QUESTION) {
             if (data == null) {
                 return;

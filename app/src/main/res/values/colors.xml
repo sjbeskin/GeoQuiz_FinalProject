@@ -3,4 +3,8 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+    <color name="trueButtonPrimary">#1ADB47</color>
+    <color name="falseButtonPrimary">#F00C23</color>
+    <color name="cheatButtonPrimary">#0CC2F0</color>
+
 </resources>

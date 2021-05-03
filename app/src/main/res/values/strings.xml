@@ -15,7 +15,7 @@
     <string name="cheat_button">Cheat!</string>
     <string name="judgement_toast">Cheating is not a victimless crime.</string>
 
-    <!-- Add and Remove QuestionS -->
+    <!-- Add and Remove Questions -->
     <string name="add_question_button">Add Question</string>
     <string name="remove_question_button">Remove Question</string>
     <string name="add_question_title">Question</string>
